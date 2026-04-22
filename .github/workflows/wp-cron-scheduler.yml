@@ -10,7 +10,7 @@ on:
 jobs:
   ping-wp-cron:
     runs-on: ubuntu-latest
-steps:
+    steps:
       - name: Trigger WordPress Cron
         run: |
           URL="https://www.chenshaoju.cn/wordpress/wp-cron.php?t=$(date +%s)"
