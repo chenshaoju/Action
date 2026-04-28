@@ -2,10 +2,9 @@ name: WordPress Daily Cron Trigger
 
 on:
   schedule:
-    # 这里的 cron 语法：分钟 小时 日 月 周
-    # "0 0 * * *" 表示每天 UTC 时间 00:00 (北京时间上午 8:00) 运行
+    # 每天 UTC 时间 00:00 (北京时间 08:00) 运行
     - cron: '0 0 * * *'
-  workflow_dispatch: # 允许你在 GitHub 页面上点击按钮手动触发
+  workflow_dispatch: 
 
 jobs:
   ping-wp-cron:
@@ -13,5 +12,8 @@ jobs:
     steps:
       - name: Trigger WordPress Cron
         run: |
-          URL="https://www.chenshaoju.cn/wordpress/wp-cron.php?t=$(date +%s)"
-          curl -I -L -H "Cache-Control: no-cache" -A "GitHub-Cron-Trigger" "$URL"
+          curl -I -L --retry 3 --retry-delay 5 --retry-all-errors \
+            --connect-timeout 10 -m 60 \
+            -H "Cache-Control: no-cache" \
+            -A "GitHub-Cron-Trigger" \
+            "https://www.chenshaoju.cn/wordpress/wp-cron.php?t=$(date +%s)"
