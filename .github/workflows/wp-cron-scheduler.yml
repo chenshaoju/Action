@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Trigger WordPress Cron
         run: |
-          curl -I -L --retry 3 --retry-delay 10 --retry-all-errors \
+          curl -I -L --retry 5 --retry-delay 60 --retry-all-errors \
             --connect-timeout 10 -m 60 \
             -H "Cache-Control: no-cache" \
-            -A "GitHub-Cron-Trigger" \
+            -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36" \
             "https://www.chenshaoju.cn/wordpress/wp-cron.php?t=$(date +%s)"
